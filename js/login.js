@@ -1,75 +1,87 @@
 function showToast(message,type){
 
-let toast=document.getElementById("toast");
+    let toast = document.getElementById("toast");
 
-toast.innerText=message;
+    toast.innerText = message;
 
-toast.className="toast show "+type;
+    toast.className = "toast show " + type;
 
-setTimeout(()=>{
-toast.className="toast";
-},3000);
+    setTimeout(()=>{
+        toast.className = "toast";
+    },3000);
 
 }
+
 
 function login(){
 
-let email=$("#email").val();
-let password=$("#password").val();
+    let email = $("#email").val();
+    let password = $("#password").val();
 
-$.ajax({
+    $.ajax({
 
-url:"php/login.php",
-type:"POST",
+        url: "php/login.php",
+        type: "POST",
 
-data:{email:email,password:password},
+        data:{
+            email: email,
+            password: password
+        },
 
-success:function(res){
+        dataType: "json",
 
-// convert response if string
-let data = typeof res === "string" ? JSON.parse(res) : res;
+        success:function(data){
 
-if(data.status==="success"){
+            if(data.status === "success"){
 
-localStorage.setItem("token",data.token);
-localStorage.setItem("user",email);
+                localStorage.setItem("token", data.token);
+                localStorage.setItem("user", email);
 
-showToast("Login successful","success");
+                showToast("Login successful","success");
 
-setTimeout(()=>{
-window.location="profile.html";
-},1000);
+                setTimeout(()=>{
+                    window.location = "profile.html";
+                },1000);
 
-}else{
+            }else{
 
-showToast("Invalid email or password","error");
+                showToast("Invalid email or password","error");
+
+            }
+
+        },
+
+        error:function(xhr){
+
+            console.error("Server error:", xhr.responseText);
+
+            showToast("Server error. Please try again.","error");
+
+        }
+
+    });
 
 }
 
-}
-
-});
-
-}
 
 function togglePassword(id,icon){
 
-let input=document.getElementById(id);
+    let input = document.getElementById(id);
 
-if(input.type==="password"){
+    if(input.type === "password"){
 
-input.type="text";
+        input.type = "text";
 
-icon.classList.remove("fa-eye");
-icon.classList.add("fa-eye-slash");
+        icon.classList.remove("fa-eye");
+        icon.classList.add("fa-eye-slash");
 
-}else{
+    }else{
 
-input.type="password";
+        input.type = "password";
 
-icon.classList.remove("fa-eye-slash");
-icon.classList.add("fa-eye");
+        icon.classList.remove("fa-eye-slash");
+        icon.classList.add("fa-eye");
 
-}
+    }
 
 }
