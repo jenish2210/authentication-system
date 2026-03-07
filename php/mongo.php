@@ -2,8 +2,12 @@
 
 require '../vendor/autoload.php';
 
-$client = new MongoDB\Client("mongodb://127.0.0.1:27017");
+$uri = getenv("MONGO_URI");
 
-$collection = $client->intern->profiles;
+$client = new MongoDB\Client($uri);
+
+$db = $client->intern;
+
+$collection = $db->profiles;
 
 ?>
