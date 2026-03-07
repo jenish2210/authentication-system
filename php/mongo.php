@@ -2,7 +2,7 @@
 
 require '../vendor/autoload.php';
 
-$uri = "mongodb://mongo:tpaYMoRpJRvspZcRmAYMtVcjhsikoAal@maglev.proxy.rlwy.net:52761";
+$uri = getenv("MONGO_URI");
 
 $client = new MongoDB\Client($uri);
 
