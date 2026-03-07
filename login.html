@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Login</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+</head>
+
+<body>
+
+<div class="card-box">
+
+<h2>Login</h2>
+
+<div class="input-group">
+
+<input id="email" required>
+<label>Email</label>
+
+</div>
+
+<div class="input-group password-wrapper">
+
+<input id="password" type="password" required>
+
+<label>Password</label>
+
+<i class="fa-solid fa-eye toggle-password"
+onclick="togglePassword('password',this)">
+</i>
+
+</div>
+
+<button onclick="login()" class="btn-custom">
+Login
+</button>
+
+<button onclick="goBack()" class="btn-back">
+Back
+</button>
+
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="js/login.js"></script>
+
+<script>
+
+function goBack(){
+window.history.back();
+}
+
+</script>
+
+</body>
+</html>

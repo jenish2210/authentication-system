@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>User Dashboard</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+
+<div class="navbar">
+
+<div class="logo">AuthSystem</div>
+
+<div class="nav-right">
+
+<span id="welcomeUser">Welcome</span>
+
+<button onclick="logout()" class="nav-btn">Logout</button>
+
+</div>
+
+</div>
+
+<!-- PROFILE CARD -->
+
+<div class="dashboard-container">
+
+<div class="card-box">
+
+<h2>User Profile</h2>
+
+<div class="input-group">
+<input id="age" type="number" required>
+<label>Age</label>
+</div>
+
+<div class="input-group">
+
+<label class="date-label"></label>
+<input id="dob" type="date" required>
+
+</div>
+
+<div class="input-group">
+<input id="contact" type="text" required>
+<label>Contact Number</label>
+</div>
+
+<button onclick="saveProfile()" class="btn-custom">
+Save Profile
+</button>
+
+</div>
+
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="js/profile.js"></script>
+
+</body>
+</html>
