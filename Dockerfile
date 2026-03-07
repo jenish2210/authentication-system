@@ -1,8 +1,11 @@
 FROM php:8.2-apache
 
-# Install dependencies
+# Install system dependencies
 RUN apt-get update && apt-get install -y \
-    git unzip libssl-dev pkg-config
+    git \
+    unzip \
+    libssl-dev \
+    pkg-config
 
 # Install MongoDB extension
 RUN pecl install mongodb \
@@ -11,11 +14,14 @@ RUN pecl install mongodb \
 # Enable Apache rewrite
 RUN a2enmod rewrite
 
-# Copy project files
-COPY . /var/www/html/
-
-# Install composer
+# Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
+# Set working directory
+WORKDIR /var/www/html
+
+# Copy project files
+COPY . .
+
 # Install PHP dependencies
-RUN composer install --no-interaction --no-dev --optimize-autoloader
+RUN composer install --no-dev --optimize-autoloader --no-interaction
