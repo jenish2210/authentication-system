@@ -2,6 +2,8 @@
 
 require '../vendor/autoload.php';
 
-$redis = new Predis\Client(getenv("REDIS_URL"));
+$redis = new Predis\Client(getenv("REDIS_URL"), [
+    'scheme' => 'tls'
+]);
 
 ?>

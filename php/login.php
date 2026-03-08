@@ -16,29 +16,27 @@ $result = $stmt->get_result();
 
 if($result->num_rows > 0){
 
-    $user = $result->fetch_assoc();
+$user = $result->fetch_assoc();
 
-    if(password_verify($password,$user['password'])){
+if(password_verify($password,$user['password'])){
 
-        $token = bin2hex(random_bytes(16));
+$token = bin2hex(random_bytes(16));
 
-        $redis->set($token,$user['id']);
+$redis->setex($token,3600,$user['id']); // expires in 1 hour
 
-        echo json_encode([
-            "status"=>"success",
-            "token"=>$token
-        ]);
-
-    }else{
-
-        echo json_encode(["status"=>"error"]);
-
-    }
+echo json_encode([
+"status"=>"success",
+"token"=>$token
+]);
 
 }else{
 
-    echo json_encode(["status"=>"error"]);
+echo json_encode(["status"=>"error"]);
 
 }
 
-?>
+}else{
+
+echo json_encode(["status"=>"error"]);
+
+}
