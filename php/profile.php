@@ -25,14 +25,16 @@ $contact = $_POST['contact'] ?? '';
 
 /* get name from mysql */
 
+$id = (int)$user_id;
+
 $stmt = $conn->prepare("SELECT name FROM users WHERE id=?");
-$stmt->bind_param("i",$user_id);
+$stmt->bind_param("i", $id);
 $stmt->execute();
 
 $result = $stmt->get_result();
-$user = $result->fetch_assoc();
+$row = $result->fetch_assoc();
 
-$name = $user['name'];
+$name = $row['name'];
 
 /* update mongodb profile */
 
