@@ -4,15 +4,25 @@ RUN apt-get update && apt-get install -y \
     git \
     unzip \
     libssl-dev \
-    pkg-config
+    pkg-config \
+    libldap2-dev \
+    # Add these for DNS/SRV resolution:
+    libc-ares-dev \
+    libcurl4-openssl-dev
 
+# Install MySQL extensions
 RUN docker-php-ext-install mysqli pdo pdo_mysql
 
+# Install MongoDB extension
+RUN pecl install mongodb \
+    && docker-php-ext-enable mongodb
+
+# Install composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /app
 COPY . .
 
-RUN composer install --no-dev --optimize-autoloader --ignore-platform-req=ext-mongodb
+RUN composer install --no-dev --optimize-autoloader
 
 CMD php -S 0.0.0.0:$PORT
