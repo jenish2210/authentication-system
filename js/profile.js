@@ -21,9 +21,9 @@ toast.innerText=message;
 
 toast.className="toast show "+type;
 
-setTimeout(()=>{
+
 toast.className="toast";
-},600);
+
 
 }
 
