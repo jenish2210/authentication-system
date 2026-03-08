@@ -2,7 +2,7 @@
 
 require '../vendor/autoload.php';
 
-$uri = getenv("MONGO_URI");
+$uri = trim(getenv("MONGO_URI"));  // ← add trim()
 
 $client = new MongoDB\Client($uri);
 
