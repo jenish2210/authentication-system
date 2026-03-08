@@ -23,7 +23,7 @@ toast.className="toast show "+type;
 
 setTimeout(()=>{
 toast.className="toast";
-},3000);
+},1200);
 
 }
 
