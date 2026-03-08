@@ -4,11 +4,7 @@ RUN apt-get update && apt-get install -y \
     git \
     unzip \
     libssl-dev \
-    pkg-config \
-    libldap2-dev \
-    # Add these for DNS/SRV resolution:
-    libc-ares-dev \
-    libcurl4-openssl-dev
+    pkg-config
 
 # Install MySQL extensions
 RUN docker-php-ext-install mysqli pdo pdo_mysql
