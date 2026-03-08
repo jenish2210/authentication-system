@@ -8,10 +8,14 @@
 
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 </head>
 
 <body>
+
+<div id="loader" class="loader">
+<div class="spinner"></div>
+</div>
 
 <div class="card-box">
 
@@ -39,6 +43,11 @@ onclick="togglePassword('password',this)">
 <button onclick="login()" class="btn-custom">
 Login
 </button>
+
+<p class="switch-text">
+Don't have an account?
+<a href="index.html">Register</a>
+</p>
 
 <button onclick="goBack()" class="btn-back">
 Back
