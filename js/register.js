@@ -6,9 +6,9 @@ toast.innerText=message;
 
 toast.className="toast show "+type;
 
-setTimeout(()=>{
+
 toast.className="toast";
-},600);
+
 
 }
 
@@ -62,7 +62,7 @@ showToast("Registration successful","success");
 
 setTimeout(()=>{
 window.location.href="login.html";
-},800);
+},120);
 
 },
 
