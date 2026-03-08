@@ -2,8 +2,16 @@
 
 require '../vendor/autoload.php';
 
-$redis = new Predis\Client(getenv("REDIS_URL"), [
-    'scheme' => 'tls'
+$url = getenv("REDIS_URL");
+
+$parts = parse_url($url);
+
+$redis = new Predis\Client([
+    'scheme' => 'tls',
+    'host'   => $parts['host'],
+    'port'   => $parts['port'],
+    'username' => $parts['user'],
+    'password' => $parts['pass']
 ]);
 
 ?>
