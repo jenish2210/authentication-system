@@ -1,61 +1,75 @@
-<?php
+let user = localStorage.getItem("user");
 
-require 'redis.php';
-require 'mongo.php';
-require 'db.php';
-
-header("Content-Type: application/json");
-
-$token = $_POST['token'] ?? '';
-
-$user_id = $redis->get($token);
-
-if(!$user_id){
-
-    echo json_encode([
-        "status"=>"error",
-        "message"=>"Unauthorized"
-    ]);
-    exit();
+if(user){
+document.getElementById("welcomeUser").innerText =
+"Welcome, " + user;
 }
 
-$age = $_POST['age'] ?? '';
-$dob = $_POST['dob'] ?? '';
-$contact = $_POST['contact'] ?? '';
+let token = localStorage.getItem("token");
 
-/* get name from mysql */
+if(!token){
+window.location="login.html";
+}
 
-$stmt = $conn->prepare("SELECT name FROM users WHERE id=?");
-$stmt->bind_param("i",$user_id);
-$stmt->execute();
+/* LOAD PROFILE DATA */
 
-$result = $stmt->get_result();
-$user = $result->fetch_assoc();
+$(document).ready(function(){
 
-$name = $user['name'];
+$.ajax({
 
-/* update mongodb profile */
+url:"php/get_profile.php",
+type:"GET",
+data:{token:token},
 
-$collection->updateOne(
+success:function(res){
 
-['user_id' => (string)$user_id],  // convert to string
+let data = typeof res === "string" ? JSON.parse(res) : res;
 
-[
-'$set'=>[
-"name"=>$name,
-"age"=>$age,
-"dob"=>$dob,
-"contact"=>$contact
-]
-],
+if(data.status === "success"){
 
-['upsert'=>true]
+$("#age").val(data.data.age);
+$("#dob").val(data.data.dob);
+$("#contact").val(data.data.contact);
 
-);
+}
 
-echo json_encode([
-"status"=>"success",
-"message"=>"Profile saved successfully"
-]);
+}
 
-?>
+});
+
+});
+
+/* SAVE PROFILE */
+
+function saveProfile(){
+
+$.ajax({
+
+url:"php/profile.php",
+type:"POST",
+
+data:{
+token:token,
+age:$("#age").val(),
+dob:$("#dob").val(),
+contact:$("#contact").val()
+},
+
+success:function(res){
+
+showToast("Profile saved successfully","success");
+
+}
+
+});
+
+}
+
+function logout(){
+
+localStorage.removeItem("token");
+localStorage.removeItem("user");
+
+window.location="login.html";
+
+}
