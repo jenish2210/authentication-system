@@ -6,10 +6,8 @@ RUN apt-get update && apt-get install -y \
     libssl-dev \
     pkg-config
 
-# Install mysqli
 RUN docker-php-ext-install mysqli pdo pdo_mysql
 
-# Install composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /app

@@ -4,34 +4,34 @@ require 'redis.php';
 require 'mongo.php';
 require 'db.php';
 
-$token=$_POST['token'];
+header("Content-Type: application/json");
 
-$user_id=$redis->get($token);
+$token = $_POST['token'];
+
+$user_id = $redis->get($token);
 
 if(!$user_id){
-echo json_encode([
-"status"=>"error",
-"message"=>"Unauthorized"
-]);
-exit();
+
+    echo json_encode([
+        "status"=>"error",
+        "message"=>"Unauthorized"
+    ]);
+    exit();
+
 }
 
-$age=$_POST['age'];
-$dob=$_POST['dob'];
-$contact=$_POST['contact'];
+$age = $_POST['age'];
+$dob = $_POST['dob'];
+$contact = $_POST['contact'];
 
-/* get name from mysql */
-
-$stmt=$conn->prepare("SELECT name FROM users WHERE id=?");
+$stmt = $conn->prepare("SELECT name FROM users WHERE id=?");
 $stmt->bind_param("i",$user_id);
 $stmt->execute();
 
-$result=$stmt->get_result();
-$user=$result->fetch_assoc();
+$result = $stmt->get_result();
+$user = $result->fetch_assoc();
 
-$name=$user['name'];
-
-/* update mongodb profile */
+$name = $user['name'];
 
 $collection->updateOne(
 

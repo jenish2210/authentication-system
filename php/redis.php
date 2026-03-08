@@ -2,10 +2,6 @@
 
 require '../vendor/autoload.php';
 
-$redis = new Predis\Client([
-'scheme' => 'tcp',
-'host'   => '127.0.0.1',
-'port'   => 6379
-]);
+$redis = new Predis\Client(getenv("REDIS_URL"));
 
 ?>
