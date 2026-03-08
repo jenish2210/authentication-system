@@ -8,7 +8,7 @@ function showToast(message,type){
 
     setTimeout(()=>{
         toast.className = "toast";
-    },1200);
+    },600);
 
 }
 
@@ -41,7 +41,7 @@ function login(){
 
                 setTimeout(()=>{
                     window.location = "profile.html";
-                },1000);
+                },800);
 
             }else{
 
