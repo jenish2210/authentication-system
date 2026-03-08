@@ -6,7 +6,7 @@ require 'db.php';
 
 header("Content-Type: application/json");
 
-$token = $_POST['token'];
+$token = $_POST['token'] ?? '';
 
 $user_id = $redis->get($token);
 
@@ -17,12 +17,13 @@ if(!$user_id){
         "message"=>"Unauthorized"
     ]);
     exit();
-
 }
 
-$age = $_POST['age'];
-$dob = $_POST['dob'];
-$contact = $_POST['contact'];
+$age = $_POST['age'] ?? '';
+$dob = $_POST['dob'] ?? '';
+$contact = $_POST['contact'] ?? '';
+
+/* get name from mysql */
 
 $stmt = $conn->prepare("SELECT name FROM users WHERE id=?");
 $stmt->bind_param("i",$user_id);
@@ -33,9 +34,11 @@ $user = $result->fetch_assoc();
 
 $name = $user['name'];
 
+/* update mongodb profile */
+
 $collection->updateOne(
 
-["user_id"=>$user_id],
+['user_id' => (string)$user_id],  // convert to string
 
 [
 '$set'=>[
@@ -46,7 +49,7 @@ $collection->updateOne(
 ]
 ],
 
-["upsert"=>true]
+['upsert'=>true]
 
 );
 

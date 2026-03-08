@@ -6,8 +6,8 @@ $uri = getenv("MONGO_URI");
 
 $client = new MongoDB\Client($uri);
 
-$db = $client->intern;
+$db = $client->selectDatabase("intern");
 
-$collection = $db->profiles;
+$collection = $db->selectCollection("profiles");
 
 ?>
