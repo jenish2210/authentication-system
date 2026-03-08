@@ -1,20 +1,34 @@
+function showToast(message,type){
+
+let toast=document.getElementById("toast");
+
+toast.innerText=message;
+
+toast.className="toast show "+type;
+
+setTimeout(()=>{
+toast.className="toast";
+},3000);
+
+}
+
 function register(){
 
 let name=$("#name").val().trim();
 let email=$("#email").val().trim();
 let password=$("#password").val().trim();
 
-/* INPUT VALIDATION */
+/* validation */
 
-if(name.length < 3){
-showToast("Name must be at least 3 characters","error");
+if(name===""){
+showToast("Name is required","error");
 return;
 }
 
 let emailPattern=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 if(!emailPattern.test(email)){
-showToast("Enter a valid email address","error");
+showToast("Enter valid email","error");
 return;
 }
 
@@ -23,16 +37,22 @@ showToast("Password must be at least 6 characters","error");
 return;
 }
 
-/* SHOW LOADER */
-
-$("#loader").show();
+/* ajax request */
 
 $.ajax({
 
 url:"php/register.php",
 type:"POST",
 
-data:{name,email,password},
+data:{
+name:name,
+email:email,
+password:password
+},
+
+beforeSend:function(){
+$("#loader").show();
+},
 
 success:function(res){
 
@@ -41,8 +61,8 @@ $("#loader").hide();
 showToast("Registration successful","success");
 
 setTimeout(()=>{
-window.location="login.html";
-},1200);
+window.location.href="login.html";
+},1000);
 
 },
 
@@ -50,14 +70,17 @@ error:function(){
 
 $("#loader").hide();
 
-showToast("Registration failed. Try again.","error");
+showToast("Registration failed","error");
 
+},
+
+complete:function(){
+$("#loader").hide();
 }
 
 });
 
 }
-
 
 function togglePassword(id,icon){
 
