@@ -15,31 +15,8 @@ function showToast(message,type){
 
 function login(){
 
-    let email = $("#email").val().trim();
-    let password = $("#password").val().trim();
-
-    /* INPUT VALIDATION */
-
-    if(email === ""){
-        showToast("Email is required","error");
-        return;
-    }
-
-    let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-    if(!emailPattern.test(email)){
-        showToast("Enter a valid email","error");
-        return;
-    }
-
-    if(password.length < 6){
-        showToast("Password must be at least 6 characters","error");
-        return;
-    }
-
-    /* SHOW LOADER */
-
-    $("#loader").show();
+    let email = $("#email").val();
+    let password = $("#password").val();
 
     $.ajax({
 
@@ -54,8 +31,6 @@ function login(){
         dataType: "json",
 
         success:function(data){
-
-            $("#loader").hide();
 
             if(data.status === "success"){
 
@@ -77,8 +52,6 @@ function login(){
         },
 
         error:function(xhr){
-
-            $("#loader").hide();
 
             console.error("Server error:", xhr.responseText);
 
