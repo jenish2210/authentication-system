@@ -1,60 +1,81 @@
+// Show logged in user
 let user = localStorage.getItem("user");
 
-if(user){
+if (user) {
+    document.getElementById("welcomeUser").innerText =
+        "Welcome, " + user;
+}
 
-document.getElementById("welcomeUser").innerText =
-"Welcome, " + user;
+// Get token
+let token = localStorage.getItem("token");
+
+// Redirect if not logged in
+if (!token) {
+    window.location.href = "login.html";
+}
+
+// Toast function
+function showToast(message, type) {
+
+    let toast = document.getElementById("toast");
+
+    toast.innerText = message;
+
+    toast.className = "toast show " + type;
+
+    setTimeout(function () {
+        toast.className = "toast";
+    }, 3000);
 
 }
 
-let token=localStorage.getItem("token");
+// Save profile
+function saveProfile() {
 
-if(!token){
-window.location="login.html";
-}
+    $.ajax({
 
-function showToast(message,type){
+        url: "php/profile.php",
+        type: "POST",
 
-let toast=document.getElementById("toast");
+        data: {
+            token: token,
+            age: $("#age").val(),
+            dob: $("#dob").val(),
+            contact: $("#contact").val()
+        },
 
-toast.innerText=message;
+        success: function (res) {
 
-toast.className="toast show "+type;
+            let data = typeof res === "string" ? JSON.parse(res) : res;
 
+            if (data.status === "success") {
 
-toast.className="toast";
+                showToast(data.message, "success");
 
+            } else {
 
-}
+                showToast(data.message, "error");
 
-function saveProfile(){
+            }
 
-$.ajax({
+        },
 
-url:"php/profile.php",
-type:"POST",
+        error: function () {
 
-data:{
-token:token,
-age:$("#age").val(),
-dob:$("#dob").val(),
-contact:$("#contact").val()
-},
+            showToast("Server Error!", "error");
 
-success:function(res){
+        }
 
-showToast("Profile saved successfully","success");
-
-}
-
-});
+    });
 
 }
 
-function logout(){
+// Logout
+function logout() {
 
-localStorage.removeItem("token");
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
 
-window.location="login.html";
+    window.location.href = "login.html";
 
 }
