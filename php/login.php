@@ -9,33 +9,38 @@ $email = $_POST['email'] ?? '';
 $password = $_POST['password'] ?? '';
 
 $stmt = $conn->prepare("SELECT * FROM users WHERE email=?");
-$stmt->bind_param("s",$email);
+$stmt->bind_param("s", $email);
 $stmt->execute();
 
 $result = $stmt->get_result();
 
-if($result->num_rows > 0){
+if ($result->num_rows > 0) {
 
-$user = $result->fetch_assoc();
+    $user = $result->fetch_assoc();
 
-if(password_verify($password,$user['password'])){
+    if (password_verify($password, $user['password'])) {
 
-$token = bin2hex(random_bytes(16));
+        $token = bin2hex(random_bytes(16));
 
-$redis->setex($token,3600,$user['id']); // expires in 1 hour
+        $redis->setex($token, 3600, $user['id']);
 
-echo json_encode([
-"status"=>"success",
-"token"=>$token
-]);
+        echo json_encode([
+            "status" => "success",
+            "token" => $token
+        ]);
 
-}else{
+    } else {
+
+        echo json_encode([
+            "status" => "error",
+            "message" => "Invalid password"
+        ]);
+    }
+
+} else {
 
     echo json_encode([
-        "status"=>"error"
+        "status" => "error",
+        "message" => "User not found"
     ]);
-
 }
-
-?>
-
