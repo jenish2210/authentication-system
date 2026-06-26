@@ -3,12 +3,11 @@ require '../vendor/autoload.php';
 
 $url = getenv("REDIS_URL");
 
-$parts = parse_url($url);
-
-$redis = new Predis\Client([
-    'scheme'   => 'tls',              // Upstash uses TLS
-    'host'     => $parts['host'],
-    'port'     => (int)$parts['port'],
-    'password' => $parts['pass'],
-]);
-?>
+try {
+    $redis = new Predis\Client($url);
+    $redis->set('test', 'hello');
+    echo $redis->get('test');
+    exit;
+} catch (Exception $e) {
+    die($e->getMessage());
+}
