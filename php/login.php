@@ -31,12 +31,11 @@ echo json_encode([
 
 }else{
 
-echo json_encode(["status"=>"error"]);
+    echo json_encode([
+        "status"=>"error"
+    ]);
 
 }
 
-}else{
+?>
 
-echo json_encode(["status"=>"error"]);
-
-}
