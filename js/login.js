@@ -1,4 +1,4 @@
-function showToast(message,type){
+function showToast(message, type) {
 
     let toast = document.getElementById("toast");
 
@@ -6,9 +6,9 @@ function showToast(message,type){
 
     toast.className = "toast show " + type;
 
-    
+    setTimeout(() => {
         toast.className = "toast";
-   
+    }, 3000);
 
 }
 
