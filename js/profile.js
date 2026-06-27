@@ -2,6 +2,11 @@ let user = localStorage.getItem("user");
 
 if (user) {
     document.getElementById("welcomeUser").innerText = "Welcome, " + user;
+
+    if (document.getElementById("dashboardName")) {
+        document.getElementById("dashboardName").innerText =
+            "Welcome, " + user + " 👋";
+    }
 }
 
 let token = localStorage.getItem("token");
@@ -28,6 +33,60 @@ function showToast(message, type) {
 
 }
 
+function updateDashboard(data) {
+
+    if ($("#summaryName").length) {
+
+        $("#summaryName").text(user);
+        $("#summaryAge").text(data.age || "-");
+        $("#summaryDob").text(data.dob || "-");
+        $("#summaryContact").text(data.contact || "-");
+
+        let completed = 0;
+
+        if (data.age) completed++;
+        if (data.dob) completed++;
+        if (data.contact) completed++;
+
+        let percent = Math.round((completed / 3) * 100);
+
+        $("#progressBar").css("width", percent + "%");
+        $("#progressText").text(percent + "% Completed");
+
+        if (percent == 100) {
+
+            $("#profileStatus")
+                .removeClass("bg-warning")
+                .addClass("bg-success")
+                .text("Profile Completed");
+
+            $("#summaryStatus")
+                .removeClass("bg-warning")
+                .addClass("bg-success")
+                .text("Completed");
+
+        } else {
+
+            $("#profileStatus")
+                .removeClass("bg-success")
+                .addClass("bg-warning")
+                .text("Profile Incomplete");
+
+            $("#summaryStatus")
+                .removeClass("bg-success")
+                .addClass("bg-warning")
+                .text("Incomplete");
+
+        }
+
+        let now = new Date();
+
+        $("#lastUpdated").text(now.toLocaleString());
+
+    }
+
+}
+
 function loadProfile() {
 
     $.ajax({
@@ -40,15 +99,17 @@ function loadProfile() {
             token: token
         },
 
-        success: function (res) {
+        dataType: "json",
 
-            let data = typeof res === "string" ? JSON.parse(res) : res;
+        success: function (data) {
 
             if (data.status === "success") {
 
                 $("#age").val(data.age);
                 $("#dob").val(data.dob);
                 $("#contact").val(data.contact);
+
+                updateDashboard(data);
 
             }
 
@@ -73,9 +134,9 @@ function saveProfile() {
             contact: $("#contact").val()
         },
 
-        success: function (res) {
+        dataType: "json",
 
-            let data = typeof res === "string" ? JSON.parse(res) : res;
+        success: function (data) {
 
             if (data.status === "success") {
 
@@ -109,3 +170,4 @@ function logout() {
     window.location.href = "login.html";
 
 }
+
