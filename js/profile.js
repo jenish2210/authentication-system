@@ -82,8 +82,6 @@ function updateDashboard(data) {
 }
 
 function loadProfile() {
-    console.log(data);
-
     $.ajax({
 
         url: "php/getProfile.php",
@@ -97,6 +95,7 @@ function loadProfile() {
         dataType: "json",
 
         success: function (data) {
+            console.log(data);
 
             if (data.status === "success") {
 
@@ -111,6 +110,7 @@ function loadProfile() {
         }
 
     });
+        
 
 }
 
