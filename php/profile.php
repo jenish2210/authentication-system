@@ -1,4 +1,3 @@
-```php
 <?php
 
 require 'redis.php';
@@ -61,4 +60,3 @@ echo json_encode([
 ]);
 
 ?>
-```
