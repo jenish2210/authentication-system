@@ -1,105 +1,109 @@
-function showToast(message,type){
+function showToast(message, type) {
 
-let toast=document.getElementById("toast");
+    let toast = document.getElementById("toast");
 
-toast.innerText=message;
+    toast.innerText = message;
 
-toast.className="toast show "+type;
+    toast.className = "toast show " + type;
 
-
-toast.className="toast";
-
-
-}
-
-function register(){
-
-let name=$("#name").val().trim();
-let email=$("#email").val().trim();
-let password=$("#password").val().trim();
-
-/* validation */
-
-if(name===""){
-showToast("Name is required","error");
-return;
-}
-
-let emailPattern=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-if(!emailPattern.test(email)){
-showToast("Enter valid email","error");
-return;
-}
-
-if(password.length < 6){
-showToast("Password must be at least 6 characters","error");
-return;
-}
-
-/* ajax request */
-
-$.ajax({
-
-url:"php/register.php",
-type:"POST",
-
-data:{
-name:name,
-email:email,
-password:password
-},
-
-beforeSend:function(){
-$("#loader").show();
-},
-
-success:function(res){
-
-$("#loader").hide();
-
-showToast("Registration successful","success");
-
-setTimeout(()=>{
-window.location.href="login.html";
-},120);
-
-},
-
-error:function(){
-
-$("#loader").hide();
-
-showToast("Registration failed","error");
-
-},
-
-complete:function(){
-$("#loader").hide();
-}
-
-});
+    setTimeout(function () {
+        toast.className = "toast";
+    }, 3000);
 
 }
 
-function togglePassword(id,icon){
+function register() {
 
-let input=document.getElementById(id);
+    let name = $("#name").val().trim();
+    let email = $("#email").val().trim();
+    let password = $("#password").val().trim();
 
-if(input.type==="password"){
+    if (name === "") {
+        showToast("Name is required", "error");
+        return;
+    }
 
-input.type="text";
+    let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-icon.classList.remove("fa-eye");
-icon.classList.add("fa-eye-slash");
+    if (!emailPattern.test(email)) {
+        showToast("Enter a valid email", "error");
+        return;
+    }
 
-}else{
+    if (password.length < 6) {
+        showToast("Password must be at least 6 characters", "error");
+        return;
+    }
 
-input.type="password";
+    $("#loader").show();
 
-icon.classList.remove("fa-eye-slash");
-icon.classList.add("fa-eye");
+    $.ajax({
+
+        url: "php/register.php",
+
+        type: "POST",
+
+        data: {
+            name: name,
+            email: email,
+            password: password
+        },
+
+        dataType: "json",
+
+        success: function (data) {
+
+            $("#loader").hide();
+
+            if (data.status === "success") {
+
+                showToast("Registration successful", "success");
+
+                setTimeout(function () {
+                    window.location.href = "login.html";
+                }, 1000);
+
+            } else {
+
+                showToast(data.message || "Registration failed", "error");
+
+            }
+
+        },
+
+        error: function (xhr) {
+
+            $("#loader").hide();
+
+            console.log(xhr.responseText);
+
+            showToast("Server error. Please try again.", "error");
+
+        }
+
+    });
 
 }
 
+function togglePassword(id, icon) {
+
+    let input = document.getElementById(id);
+
+    if (input.type === "password") {
+
+        input.type = "text";
+
+        icon.classList.remove("fa-eye");
+        icon.classList.add("fa-eye-slash");
+
+    } else {
+
+        input.type = "password";
+
+        icon.classList.remove("fa-eye-slash");
+        icon.classList.add("fa-eye");
+
+    }
+
 }
+

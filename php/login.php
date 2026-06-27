@@ -5,8 +5,18 @@ require 'redis.php';
 
 header("Content-Type: application/json");
 
-$email = $_POST['email'] ?? '';
+$email = trim($_POST['email'] ?? '');
 $password = $_POST['password'] ?? '';
+
+if ($email == "" || $password == "") {
+
+    echo json_encode([
+        "status" => "error",
+        "message" => "Email and Password are required."
+    ]);
+
+    exit();
+}
 
 $stmt = $conn->prepare("SELECT * FROM users WHERE email=?");
 $stmt->bind_param("s", $email);
@@ -26,21 +36,30 @@ if ($result->num_rows > 0) {
 
         echo json_encode([
             "status" => "success",
-            "token" => $token
+            "token" => $token,
+            "name" => $user["name"]
         ]);
 
     } else {
 
         echo json_encode([
             "status" => "error",
-            "message" => "Invalid password"
+            "message" => "Invalid password."
         ]);
+
     }
 
 } else {
 
     echo json_encode([
         "status" => "error",
-        "message" => "User not found"
+        "message" => "User not found."
     ]);
+
 }
+
+$stmt->close();
+$conn->close();
+
+?>
+

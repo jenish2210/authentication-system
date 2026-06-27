@@ -1,80 +1,165 @@
+```html
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
 
-<title>Create Account</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<link rel="stylesheet" href="css/style.css">
+    <title>Create Account</title>
 
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
+        rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+
 </head>
 
-<body>
+<body class="bg-light">
 
+    <!-- Loader -->
     <div id="loader" class="loader">
-  <div class="spinner"></div>
-</div>
+        <div class="spinner"></div>
+    </div>
 
-<div class="card-box">
+    <!-- Navbar -->
+    <nav class="navbar navbar-dark bg-primary shadow">
+        <div class="container">
+            <span class="navbar-brand mb-0 h1">Authentication System</span>
+        </div>
+    </nav>
 
-<h2>Create Account</h2>
+    <!-- Register Card -->
+    <div class="container">
 
-<div class="input-group">
+        <div class="row justify-content-center align-items-center vh-100">
 
-<input id="name" type="text" required>
-<label>Name</label>
+            <div class="col-lg-5 col-md-7 col-sm-10">
 
-</div>
+                <div class="card shadow-lg border-0 rounded-4">
 
-<div class="input-group">
+                    <div class="card-body p-4">
 
-<input id="email" required type="email">
-<label>Email</label>
+                        <h2 class="text-center mb-4">
+                            Create Account
+                        </h2>
 
-</div>
+                        <div class="mb-3">
+                            <label class="form-label">Full Name</label>
+                            <input type="text"
+                                id="name"
+                                class="form-control"
+                                placeholder="Enter your name">
+                        </div>
 
-<div class="input-group password-wrapper">
+                        <div class="mb-3">
+                            <label class="form-label">Email Address</label>
+                            <input type="email"
+                                id="email"
+                                class="form-control"
+                                placeholder="Enter your email">
+                        </div>
 
-<input id="password" type="password" required>
+                        <div class="mb-3">
 
-<label>Password</label>
+                            <label class="form-label">
+                                Password
+                            </label>
 
-<i class="fa-solid fa-eye toggle-password"
-onclick="togglePassword('password',this)">
-</i>
+                            <div class="input-group">
 
-</div>
+                                <input type="password"
+                                    id="password"
+                                    class="form-control"
+                                    placeholder="Enter password">
 
+                                <button class="btn btn-outline-secondary"
+                                    type="button"
+                                    onclick="togglePassword('password',this)">
 
-<button onclick="register()" class="btn-custom">
-Register
-</button>
+                                    <i class="fa-solid fa-eye"></i>
 
-<p class="switch-text">
-Already have an account?
-<a href="login.html">Login</a>
-</p>
+                                </button>
 
-<button onclick="goBack()" class="btn-back">
-Back
-</button>
+                            </div>
 
-</div>
+                        </div>
 
-<div id="toast" class="toast"></div>
+                        <div class="d-grid">
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="js/register.js"></script>
+                            <button
+                                onclick="register()"
+                                class="btn btn-primary btn-lg">
 
-<script>
+                                Register
 
-function goBack(){
-window.history.back();
-}
+                            </button>
 
-</script>
+                        </div>
+
+                        <p class="text-center mt-3">
+
+                            Already have an account?
+
+                            <a href="login.html">
+                                Login
+                            </a>
+
+                        </p>
+
+                        <div class="d-grid">
+
+                            <button
+                                onclick="goBack()"
+                                class="btn btn-outline-secondary">
+
+                                Back
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Toast -->
+    <div id="toast" class="toast"></div>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Register JS -->
+    <script src="js/register.js"></script>
+
+    <script>
+
+        function goBack() {
+            window.history.back();
+        }
+
+    </script>
 
 </body>
+
 </html>
+```

@@ -12,50 +12,55 @@ function showToast(message, type) {
 
 }
 
+function login() {
 
-function login(){
-
-    let email = $("#email").val();
-    let password = $("#password").val();
+    let email = $("#email").val().trim();
+    let password = $("#password").val().trim();
 
     $.ajax({
 
         url: "php/login.php",
+
         type: "POST",
 
-        data:{
+        data: {
             email: email,
             password: password
         },
 
         dataType: "json",
 
-        success:function(data){
+        success: function (data) {
 
-            if(data.status === "success"){
+            if (data.status === "success") {
 
                 localStorage.setItem("token", data.token);
-                localStorage.setItem("user", email);
 
-                showToast("Login successful","success");
+                if (data.name) {
+                    localStorage.setItem("user", data.name);
+                } else {
+                    localStorage.setItem("user", email);
+                }
 
-                setTimeout(()=>{
-                    window.location = "profile.html";
-                },200);
+                showToast("Login successful", "success");
 
-            }else{
+                setTimeout(function () {
+                    window.location.href = "profile.html";
+                }, 1000);
 
-                showToast("Invalid email or password","error");
+            } else {
+
+                showToast(data.message || "Invalid email or password", "error");
 
             }
 
         },
 
-        error:function(xhr){
+        error: function (xhr) {
 
-            console.error("Server error:", xhr.responseText);
+            console.error(xhr.responseText);
 
-            showToast("Server error. Please try again.","error");
+            showToast("Server error. Please try again.", "error");
 
         }
 
@@ -63,19 +68,18 @@ function login(){
 
 }
 
-
-function togglePassword(id,icon){
+function togglePassword(id, icon) {
 
     let input = document.getElementById(id);
 
-    if(input.type === "password"){
+    if (input.type === "password") {
 
         input.type = "text";
 
         icon.classList.remove("fa-eye");
         icon.classList.add("fa-eye-slash");
 
-    }else{
+    } else {
 
         input.type = "password";
 
@@ -85,3 +89,4 @@ function togglePassword(id,icon){
     }
 
 }
+

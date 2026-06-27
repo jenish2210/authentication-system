@@ -1,20 +1,20 @@
-// Show logged in user
+```javascript
 let user = localStorage.getItem("user");
 
 if (user) {
-    document.getElementById("welcomeUser").innerText =
-        "Welcome, " + user;
+    document.getElementById("welcomeUser").innerText = "Welcome, " + user;
 }
 
-// Get token
 let token = localStorage.getItem("token");
 
-// Redirect if not logged in
 if (!token) {
     window.location.href = "login.html";
 }
 
-// Toast function
+$(document).ready(function () {
+    loadProfile();
+});
+
 function showToast(message, type) {
 
     let toast = document.getElementById("toast");
@@ -29,12 +29,42 @@ function showToast(message, type) {
 
 }
 
-// Save profile
+function loadProfile() {
+
+    $.ajax({
+
+        url: "php/getProfile.php",
+
+        type: "POST",
+
+        data: {
+            token: token
+        },
+
+        success: function (res) {
+
+            let data = typeof res === "string" ? JSON.parse(res) : res;
+
+            if (data.status === "success") {
+
+                $("#age").val(data.age);
+                $("#dob").val(data.dob);
+                $("#contact").val(data.contact);
+
+            }
+
+        }
+
+    });
+
+}
+
 function saveProfile() {
 
     $.ajax({
 
         url: "php/profile.php",
+
         type: "POST",
 
         data: {
@@ -51,6 +81,8 @@ function saveProfile() {
             if (data.status === "success") {
 
                 showToast(data.message, "success");
+
+                loadProfile();
 
             } else {
 
@@ -70,7 +102,6 @@ function saveProfile() {
 
 }
 
-// Logout
 function logout() {
 
     localStorage.removeItem("token");

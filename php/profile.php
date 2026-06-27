@@ -1,3 +1,4 @@
+```php
 <?php
 
 require 'redis.php';
@@ -10,11 +11,10 @@ $token = $_POST['token'] ?? '';
 
 $user_id = $redis->get($token);
 
-if(!$user_id){
-
+if (!$user_id) {
     echo json_encode([
-        "status"=>"error",
-        "message"=>"Unauthorized"
+        "status" => "error",
+        "message" => "Unauthorized"
     ]);
     exit();
 }
@@ -23,8 +23,6 @@ $age = $_POST['age'] ?? '';
 $dob = $_POST['dob'] ?? '';
 $contact = $_POST['contact'] ?? '';
 
-/* get name from mysql */
-
 $id = (int)$user_id;
 
 $stmt = $conn->prepare("SELECT name FROM users WHERE id=?");
@@ -32,32 +30,35 @@ $stmt->bind_param("i", $id);
 $stmt->execute();
 
 $result = $stmt->get_result();
-$row = $result->fetch_assoc();
+$user = $result->fetch_assoc();
 
-$name = $row['name'];
-
-/* update mongodb profile */
+$name = $user['name'];
 
 $collection->updateOne(
 
-['user_id' => (string)$user_id],  // convert to string
+    [
+        'user_id' => (string)$user_id
+    ],
 
-[
-'$set'=>[
-"name"=>$name,
-"age"=>$age,
-"dob"=>$dob,
-"contact"=>$contact
-]
-],
+    [
+        '$set' => [
+            'name' => $name,
+            'age' => $age,
+            'dob' => $dob,
+            'contact' => $contact
+        ]
+    ],
 
-['upsert'=>true]
+    [
+        'upsert' => true
+    ]
 
 );
 
 echo json_encode([
-"status"=>"success",
-"message"=>"Profile saved successfully"
+    "status" => "success",
+    "message" => "Profile saved successfully"
 ]);
 
 ?>
+```
