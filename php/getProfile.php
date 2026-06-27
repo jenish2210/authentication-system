@@ -1,6 +1,8 @@
 <?php
+
 require 'redis.php';
 require 'mongo.php';
+require 'db.php';
 
 header("Content-Type: application/json");
 
@@ -16,7 +18,19 @@ if (!$user_id) {
     ]);
 
     exit();
+
 }
+
+$id = (int)$user_id;
+
+$stmt = $conn->prepare("SELECT name FROM users WHERE id=?");
+$stmt->bind_param("i", $id);
+$stmt->execute();
+
+$result = $stmt->get_result();
+$user = $result->fetch_assoc();
+
+$name = $user["name"] ?? "";
 
 $profile = $collection->findOne([
     "user_id" => (string)$user_id
@@ -25,18 +39,34 @@ $profile = $collection->findOne([
 if ($profile) {
 
     echo json_encode([
+
         "status" => "success",
+
+        "name" => $name,
+
         "age" => $profile["age"] ?? "",
+
         "dob" => $profile["dob"] ?? "",
+
         "contact" => $profile["contact"] ?? ""
+
     ]);
 
 } else {
 
     echo json_encode([
-        "status" => "empty"
+
+        "status" => "success",
+
+        "name" => $name,
+
+        "age" => "",
+
+        "dob" => "",
+
+        "contact" => ""
+
     ]);
 
 }
-?>
 

@@ -35,59 +35,54 @@ function showToast(message, type) {
 
 function updateDashboard(data) {
 
-    if ($("#summaryName").length) {
+    $("#summaryName").text(data.name || user);
+    $("#summaryAge").text(data.age || "-");
+    $("#summaryDob").text(data.dob || "-");
+    $("#summaryContact").text(data.contact || "-");
 
-        $("#summaryName").text(user);
-        $("#summaryAge").text(data.age || "-");
-        $("#summaryDob").text(data.dob || "-");
-        $("#summaryContact").text(data.contact || "-");
+    let completed = 0;
 
-        let completed = 0;
+    if (data.age) completed++;
+    if (data.dob) completed++;
+    if (data.contact) completed++;
 
-        if (data.age) completed++;
-        if (data.dob) completed++;
-        if (data.contact) completed++;
+    let percent = Math.round((completed / 3) * 100);
 
-        let percent = Math.round((completed / 3) * 100);
+    $("#progressBar").css("width", percent + "%");
+    $("#progressText").text(percent + "% Completed");
 
-        $("#progressBar").css("width", percent + "%");
-        $("#progressText").text(percent + "% Completed");
+    if (percent === 100) {
 
-        if (percent == 100) {
+        $("#profileStatus")
+            .removeClass("bg-warning")
+            .addClass("bg-success")
+            .text("Profile Completed");
 
-            $("#profileStatus")
-                .removeClass("bg-warning")
-                .addClass("bg-success")
-                .text("Profile Completed");
+        $("#summaryStatus")
+            .removeClass("bg-warning")
+            .addClass("bg-success")
+            .text("Completed");
 
-            $("#summaryStatus")
-                .removeClass("bg-warning")
-                .addClass("bg-success")
-                .text("Completed");
+    } else {
 
-        } else {
+        $("#profileStatus")
+            .removeClass("bg-success")
+            .addClass("bg-warning")
+            .text("Profile Incomplete");
 
-            $("#profileStatus")
-                .removeClass("bg-success")
-                .addClass("bg-warning")
-                .text("Profile Incomplete");
-
-            $("#summaryStatus")
-                .removeClass("bg-success")
-                .addClass("bg-warning")
-                .text("Incomplete");
-
-        }
-
-        let now = new Date();
-
-        $("#lastUpdated").text(now.toLocaleString());
+        $("#summaryStatus")
+            .removeClass("bg-success")
+            .addClass("bg-warning")
+            .text("Incomplete");
 
     }
+
+    $("#lastUpdated").text(new Date().toLocaleString());
 
 }
 
 function loadProfile() {
+    console.log(data);
 
     $.ajax({
 
