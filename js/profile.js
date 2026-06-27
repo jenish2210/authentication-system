@@ -1,22 +1,31 @@
 let user = localStorage.getItem("user");
 
 if (user) {
-    document.getElementById("welcomeUser").innerText = "Welcome, " + user;
+
+    document.getElementById("welcomeUser").innerText =
+        "Welcome, " + user;
 
     if (document.getElementById("dashboardName")) {
+
         document.getElementById("dashboardName").innerText =
             "Welcome, " + user + " 👋";
+
     }
+
 }
 
 let token = localStorage.getItem("token");
 
 if (!token) {
+
     window.location.href = "login.html";
+
 }
 
 $(document).ready(function () {
+
     loadProfile();
+
 });
 
 function showToast(message, type) {
@@ -28,7 +37,9 @@ function showToast(message, type) {
     toast.className = "toast show " + type;
 
     setTimeout(function () {
+
         toast.className = "toast";
+
     }, 3000);
 
 }
@@ -49,6 +60,7 @@ function updateDashboard(data) {
     let percent = Math.round((completed / 3) * 100);
 
     $("#progressBar").css("width", percent + "%");
+
     $("#progressText").text(percent + "% Completed");
 
     if (percent === 100) {
@@ -82,6 +94,7 @@ function updateDashboard(data) {
 }
 
 function loadProfile() {
+
     $.ajax({
 
         url: "php/getProfile.php",
@@ -89,12 +102,15 @@ function loadProfile() {
         type: "POST",
 
         data: {
+
             token: token
+
         },
 
         dataType: "json",
 
         success: function (data) {
+
             console.log(data);
 
             if (data.status === "success") {
@@ -107,10 +123,15 @@ function loadProfile() {
 
             }
 
+        },
+
+        error: function () {
+
+            console.log("Unable to load profile.");
+
         }
 
     });
-        
 
 }
 
@@ -123,21 +144,37 @@ function saveProfile() {
         type: "POST",
 
         data: {
+
             token: token,
             age: $("#age").val(),
             dob: $("#dob").val(),
             contact: $("#contact").val()
+
         },
 
         dataType: "json",
 
+        beforeSend: function () {
+
+            $("#loader").css("display", "flex");
+
+        },
+
         success: function (data) {
+
+            $("#loader").hide();
 
             if (data.status === "success") {
 
                 showToast(data.message, "success");
 
                 loadProfile();
+
+                $("#profileForm").fadeOut(500, function () {
+
+                    $("#profileSaved").fadeIn(500);
+
+                });
 
             } else {
 
@@ -149,6 +186,8 @@ function saveProfile() {
 
         error: function () {
 
+            $("#loader").hide();
+
             showToast("Server Error!", "error");
 
         }
@@ -157,12 +196,22 @@ function saveProfile() {
 
 }
 
+function editProfile() {
+
+    $("#profileSaved").fadeOut(300, function () {
+
+        $("#profileForm").fadeIn(300);
+
+    });
+
+}
+
 function logout() {
 
     localStorage.removeItem("token");
+
     localStorage.removeItem("user");
 
     window.location.href = "login.html";
 
 }
-

@@ -13,7 +13,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
     <link rel="stylesheet" href="css/style.css">
 
@@ -50,7 +50,9 @@
             id="navbarContent">
 
             <span id="welcomeUser">
+
                 Welcome
+
             </span>
 
             <button
@@ -137,6 +139,8 @@ Complete your profile information
 
 </div>
 
+<div id="profileForm">
+
 <div class="mb-3">
 
 <label class="form-label">
@@ -200,6 +204,41 @@ Save Profile
 
 </div>
 
+<div id="profileSaved" style="display:none;">
+
+<div class="text-center py-5">
+
+<i class="fas fa-circle-check text-success"
+style="font-size:80px;"></i>
+
+<h2 class="mt-4">
+
+Profile Saved Successfully
+
+</h2>
+
+<p class="text-light">
+
+Your profile information has been saved successfully.
+
+</p>
+
+<button
+class="btn btn-warning rounded-pill px-4 mt-3"
+onclick="editProfile()">
+
+<i class="fas fa-pen me-2"></i>
+
+Edit Profile
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
 </div>
 
 </div>
@@ -228,7 +267,8 @@ Save Profile
 
                 <div class="progress" style="height:10px;">
 
-                    <div id="progressBar"
+                    <div
+                        id="progressBar"
                         class="progress-bar bg-success"
                         role="progressbar"
                         style="width:0%">
@@ -277,7 +317,7 @@ Save Profile
 
                 <tr>
 
-                    <td>DOB</td>
+                    <td>Date of Birth</td>
 
                     <td id="summaryDob">-</td>
 
@@ -350,3 +390,5 @@ Save Profile
 </body>
 
 </html>
+
+

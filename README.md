@@ -1,55 +1,114 @@
-# Authentication System – Internship Task
+# Authentication System
 
-This project is a simple authentication system developed as part of an internship assignment.
-It demonstrates a modern backend architecture using **PHP, MySQL, Redis, and MongoDB** with an **AJAX-based frontend**.
-
----
-
-## 🚀 Project Flow
-
-Register → Login → Profile
-
-1. User registers with name, email, and password.
-2. User logs in using registered credentials.
-3. After successful login, a **token is generated and stored in Redis**.
-4. The token is stored in **browser localStorage**.
-5. The profile page allows users to save additional information such as age, date of birth, and contact.
-6. Profile data is stored in **MongoDB**.
+A secure and responsive **Authentication System** developed using **PHP, MySQL, MongoDB, Redis, Bootstrap, JavaScript, jQuery, and Docker**. The application allows users to register, log in securely, manage their profile, and store profile information across multiple databases.
 
 ---
 
-## 🧰 Tech Stack
+## Features
 
-Frontend
+* User Registration
+* Secure Login Authentication
+* Password Hashing using PHP `password_hash()`
+* Session Token Authentication using Redis
+* Profile Management
+* Profile Data Storage in MongoDB
+* User Credentials Storage in MySQL
+* Responsive Bootstrap UI
+* Glassmorphism Dashboard Design
+* AJAX-based Form Submission
+* Toast Notifications
+* Docker Support
+* Render Deployment Ready
 
-* HTML
-* CSS
+---
+
+## Technology Stack
+
+### Frontend
+
+* HTML5
+* CSS3
+* Bootstrap 5
 * JavaScript
-* jQuery (AJAX)
-* Bootstrap / Custom UI
+* jQuery
+* Font Awesome
 
-Backend
+### Backend
 
-* PHP
+* PHP 8
+* MySQL
+* MongoDB
+* Redis
 
-Databases
+### Tools
 
-* MySQL – User authentication
-* Redis – Session token storage
-* MongoDB – User profile data
-
-Tools
-
-* Docker (for Redis and MongoDB)
-* XAMPP (Apache + MySQL)
-* Composer (PHP dependencies)
+* Composer
+* Docker
+* Git
+* GitHub
+* Render
 
 ---
 
-## 📁 Project Structure
+## Database Design
+
+### MySQL
+
+**users**
+
+| Field    | Type    |
+| -------- | ------- |
+| id       | INT     |
+| name     | VARCHAR |
+| email    | VARCHAR |
+| password | VARCHAR |
+
+Stores user authentication credentials.
+
+---
+
+### MongoDB
+
+**profiles**
+
+```json
+{
+    "user_id":"1",
+    "name":"Jenison",
+    "age":"22",
+    "dob":"2003-10-22",
+    "contact":"9876543210"
+}
+```
+
+Stores user profile information.
+
+---
+
+### Redis
+
+Stores temporary login session tokens.
+
+Example:
 
 ```
-intern/
+Token
+↓
+
+a83f7bcf9ef92....
+
+↓
+
+User ID
+```
+
+---
+
+## Project Structure
+
+```
+authentication-system/
+
 │
 ├── css/
 │   └── style.css
@@ -61,126 +120,157 @@ intern/
 │
 ├── php/
 │   ├── db.php
-│   ├── redis.php
 │   ├── mongo.php
+│   ├── redis.php
 │   ├── register.php
 │   ├── login.php
-│   └── profile.php
+│   ├── profile.php
+│   └── getProfile.php
 │
-├── vendor/ (Composer dependencies)
-│
+├── vendor/
+├── composer.json
+├── Dockerfile
+├── index.html
 ├── login.html
-├── register.html
-└── profile.html
+├── profile.html
+└── README.md
 ```
 
 ---
 
-## 🔐 Security Features
+## Application Workflow
 
-* Password hashing using `password_hash()`
-* Secure login validation using `password_verify()`
-* Redis-based session token authentication
-* Token stored in browser `localStorage`
-* Prepared statements used for MySQL queries
-* Protected profile endpoint (token validation)
+```
+Register
+     │
+     ▼
+MySQL
+     │
+     ▼
+Login
+     │
+     ▼
+Redis Token
+     │
+     ▼
+Profile Page
+     │
+     ▼
+Save Profile
+     │
+     ▼
+MongoDB
+     │
+     ▼
+Load Profile
+```
 
 ---
 
-## ⚙️ Setup Instructions
+## Installation
 
-### 1️⃣ Clone Repository
+Clone the repository
 
+```bash
+git clone https://github.com/jenish2210/authentication-system.git
 ```
-git clone https://github.com/yourusername/authentication-system.git
+
+Move into the project directory
+
+```bash
 cd authentication-system
 ```
 
----
+Install Composer packages
 
-### 2️⃣ Install Dependencies
-
-```
+```bash
 composer install
 ```
 
----
+Run the PHP server
 
-### 3️⃣ Start XAMPP
-
-Start:
-
-* Apache
-* MySQL
-
----
-
-### 4️⃣ Create Database
-
-Open **phpMyAdmin** and create database:
-
-```
-intern
-```
-
-Create table:
-
-```
-users
-```
-
-Columns:
-
-| Column   | Type               |
-| -------- | ------------------ |
-| id       | INT AUTO_INCREMENT |
-| name     | VARCHAR            |
-| email    | VARCHAR            |
-| password | VARCHAR            |
-
----
-
-### 5️⃣ Run Redis (Docker)
-
-```
-docker run -d -p 6379:6379 --name redis-server redis
+```bash
+php -S localhost:8000
 ```
 
 ---
 
-### 6️⃣ Run MongoDB (Docker)
+## Environment Variables
+
+Configure the following environment variables.
 
 ```
-docker run -d -p 27017:27017 --name mongo-db mongo
+MYSQL_HOST=
+
+MYSQL_USER=
+
+MYSQL_PASSWORD=
+
+MYSQL_DATABASE=
+
+REDIS_URL=
+
+MONGO_URI=
 ```
 
 ---
 
-### 7️⃣ Run the Project
+## Security Features
 
-Open in browser:
-
-```
-http://localhost/intern/register.html
-```
-
----
-
-## 🌐 Live Demo
-
-Live URL:
-``
+* Password hashing using BCrypt
+* Redis session token authentication
+* Prepared SQL statements
+* AJAX-based communication
+* Input validation
+* Secure database access
+* Separation of authentication and profile data
 
 ---
 
-## 💻 GitHub Repository
+## Future Enhancements
 
-Repository URL:
-`https://github.com/jenish2210/authentication-system.git`
+* Email Verification
+* Forgot Password
+* JWT Authentication
+* User Avatar Upload
+* Two-Factor Authentication
+* Admin Dashboard
+* Activity Logs
 
 ---
 
-## 👨‍💻 Author
+## Screenshots
 
-Jenish
-BCA Student | Python & Django Developer
+* Registration Page
+* Login Page
+* User Dashboard
+* Profile Summary
+
+---
+
+## Deployment
+
+This project can be deployed using:
+
+* Docker
+* Render
+* Railway
+* VPS with Apache/Nginx
+
+---
+
+## Author
+
+**Jenison**
+
+GitHub:
+https://github.com/jenish2210
+
+Email:
+[jenisonjenish22@gmail.com](mailto:jenisonjenish22@gmail.com)
+
+---
+
+## License
+
+This project is created for educational and internship assessment purposes.

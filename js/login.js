@@ -89,4 +89,3 @@ function togglePassword(id, icon) {
     }
 
 }
-
