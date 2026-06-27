@@ -11,7 +11,7 @@ RUN apt-get update && apt-get install -y \
 RUN docker-php-ext-install mysqli pdo pdo_mysql
 
 # Install MongoDB extension
-RUN pecl install mongodb \
+RUN pecl install mongodb-1.21.0 \ 
     && docker-php-ext-enable mongodb
 
 # Install Composer
@@ -23,7 +23,7 @@ WORKDIR /app
 COPY . .
 
 # Install PHP dependencies
-RUN composer install --no-dev --optimize-autoloader --ignore-platform-req=ext-mongodb
+RUN composer install --no-dev --optimize-autoloader
 
 # Start PHP server
 CMD ["sh", "-c", "php -S 0.0.0.0:${PORT:-10000} -t ."]
