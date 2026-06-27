@@ -23,7 +23,7 @@ WORKDIR /app
 COPY . .
 
 # Install PHP dependencies
-RUN composer install --no-dev --optimize-autoloader
+RUN composer update mongodb/mongodb --no-dev --optimize-autoloader --with-all-dependencies
 
 # Start PHP server
 CMD ["sh", "-c", "php -S 0.0.0.0:${PORT:-10000} -t ."]
